@@ -1,1 +1,68 @@
 /* You can add global styles to this file, and also import other style files */
+.orna-circle {
+  position: absolute;
+  top: 50%;
+  background-color: #7d6ee7;
+  opacity: .1;
+  width: 500px;
+  height: 500px;
+  margin-left: -250px;
+  margin-top: -250px;
+  -webkit-animation: circle_animation 7s linear infinite;
+  animation: circle_animation 7s linear infinite;
+}
+
+
+@-webkit-keyframes circle_animation {
+
+  0%,
+  to {
+    border-radius: 42% 58% 70% 30%/45% 45% 55% 55%;
+    -webkit-transform: translateZ(0) rotate(.01deg);
+    transform: translateZ(0) rotate(.01deg)
+  }
+
+  34% {
+    border-radius: 70% 30% 46% 54%/30% 29% 71% 70%;
+    -webkit-transform: translate3d(0, 5px, 0) rotate(.01deg);
+    transform: translate3d(0, 5px, 0) rotate(.01deg)
+  }
+
+  50% {
+    -webkit-transform: translateZ(0) rotate(.01deg);
+    transform: translateZ(0) rotate(.01deg)
+  }
+
+  67% {
+    border-radius: 100% 60% 60% 100%/100% 100% 60% 60%;
+    -webkit-transform: translate3d(0, -3px, 0) rotate(.01deg);
+    transform: translate3d(0, -3px, 0) rotate(.01deg)
+  }
+}
+
+@keyframes circle_animation {
+
+  0%,
+  to {
+    border-radius: 42% 58% 70% 30%/45% 45% 55% 55%;
+    -webkit-transform: translateZ(0) rotate(.01deg);
+    transform: translateZ(0) rotate(.01deg)
+  }
+
+  34% {
+    border-radius: 70% 30% 46% 54%/30% 29% 71% 70%;
+    -webkit-transform: translate3d(0, 5px, 0) rotate(.01deg);
+    transform: translate3d(0, 5px, 0) rotate(.01deg)
+  }
+
+  50% {
+    -webkit-transform: translateZ(0) rotate(.01deg);
+    transform: translateZ(0) rotate(.01deg)
+  }
+
+  67% {
+    border-radius: 100% 60% 60% 100%/100% 100% 60% 60%;
+    -webkit-transform: translate3d(0, -3px, 0) rotate(.01deg);
+    transform: translate3d(0, -3px, 0) rotate(.01deg)
+  }
+}
