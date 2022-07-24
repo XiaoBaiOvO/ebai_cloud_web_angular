@@ -1,57 +1,64 @@
 <div class="container">
-    <div class="lang">
-        <i class="anticon" title="语言" nz-dropdown>
-            <svg viewBox="0 0 24 24" focusable="false" width="1em" height="1em" fill="currentColor" aria-hidden="true">
-                <path d="M0 0h24v24H0z" fill="none"></path>
-                <path
-                    d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z "
-                    class="css-c4d79v"></path>
-            </svg>
-        </i>
-        <nz-dropdown-menu #menuLanguage="nzDropdownMenu">
-            <ul nz-menu nzSelectable>
-                <li nz-menu-item>简体中文</li>
-            </ul>
-        </nz-dropdown-menu>
-    </div>
+
     <div class="content">
         <div class="top">
             <div class="header">
                 <img src="./assets/logo.png" alt="" class="logo">
                 <span class="title">小白云工具站</span>
             </div>
-            <div class="desc">———— ebai.cloud   ————</div>
-<!--            <button (click)="toLogin()">login</button>-->
+            <div class="desc">———— ebai.cloud ————</div>
         </div>
+
         <div class="main">
-            <nz-tabset [(nzSelectedIndex)]="selectedIndex">
+            <nz-tabset [(nzSelectedIndex)]="tabIndex" (nzSelectedIndexChange)="selectedChange()">
+
                 <nz-tab nzTitle="账户密码登录">
-                    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-                        <nz-alert *ngIf="loginError" nzType="error" nzMessage="账户或密码错误（admin/ng.antd.admin）" nzShowIcon
-                                  style="margin-bottom: 24px;">
+
+                    <form nz-form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <nz-alert
+                            *ngIf="loginError"
+                            nzType="error"
+                            nzMessage="账户或密码错误"
+                            nzShowIcon
+                            style="margin-bottom: 24px;"
+                        >
                         </nz-alert>
+
                         <ng-template #userTpl>
-                            <i nz-icon nzType="user" nzTheme="outline" style="color: #1890ff;"></i>
+                            <i nz-icon nzType="user" nzTheme="outline" style="color: #ef9550;margin-right: 10px"></i>
                         </ng-template>
                         <ng-template #lockTpl>
-                            <i nz-icon nzType="lock" nzTheme="outline" style="color: #1890ff;"></i>
+                            <i nz-icon nzType="lock" nzTheme="outline" style="color: #ef9550;margin-right: 10px"></i>
                         </ng-template>
+
                         <nz-form-item>
-                            <nz-form-control nzErrorTip="请输入用户名!">
+                            <nz-form-control nzErrorTip="用户名不能为空！">
                                 <nz-input-group [nzPrefix]="userTpl" [nzSize]="'large'">
-                                    <input type="text" nz-input formControlName="username"
-                                           placeholder="用户名: admin or user"/>
+                                    <input
+                                        type="text"
+                                        nz-input
+                                        formControlName="userName"
+                                        placeholder="请输入用户名.."
+                                        style="font-size: 14px"
+                                    />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
+
                         <nz-form-item>
-                            <nz-form-control nzErrorTip="请输入密码！">
+                            <nz-form-control nzErrorTip="密码不能为空！">
                                 <nz-input-group [nzPrefix]="lockTpl" [nzSize]="'large'">
-                                    <input type="password" nz-input formControlName="password"
-                                           placeholder="密码: ng.antd.admin"/>
+                                    <input
+                                        type="password"
+                                        nz-input
+                                        formControlName="password"
+                                        placeholder="请输入密码.."
+                                        style="font-size: 14px"
+                                    />
                                 </nz-input-group>
                             </nz-form-control>
                         </nz-form-item>
+
                         <div nz-row>
                             <div nz-col [nzSpan]="12">
                                 <label nz-checkbox formControlName="remember">
@@ -70,33 +77,41 @@
                             </nz-form-control>
                         </nz-form-item>
                         <div class="login-other">
-                            <div class="flex-1">
+                            <div nz-col [nzSpan]="16">
                                 其他登录方式
                                 <i nz-icon nzType="alipay-circle" nzTheme="outline"></i>
                                 <i nz-icon nzType="taobao-circle" nzTheme="outline"></i>
                                 <i nz-icon nzType="weibo-circle" nzTheme="outline"></i>
                             </div>
-                            <a (click)="goRegister()">注册账户</a>
+                            <div nz-col [nzSpan]="8" class="text-right">
+                                <a (click)="goRegister()">注册账户</a>
+                            </div>
                         </div>
                     </form>
                 </nz-tab>
+
+
                 <nz-tab nzTitle="手机号登录">
-                    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitFormMobile()">
-                        <nz-alert *ngIf="mobileLoginError" nzType="error" nzMessage="验证码错误（123456）" nzShowIcon
+                    <form nz-form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <nz-alert *ngIf="mobileLoginError" nzType="error" nzMessage="验证码错误" nzShowIcon
                                   style="margin-bottom: 24px;">
                         </nz-alert>
+
                         <ng-template #mobileTpl>
-                            <i nz-icon nzType="mobile" nzTheme="outline" style="color: #1890ff;"></i>
+                            <i nz-icon nzType="mobile" nzTheme="outline" style="color: #ef9550;"></i>
                         </ng-template>
                         <ng-template #mailTpl>
-                            <i nz-icon nzType="mail" nzTheme="outline" style="color: #1890ff;"></i>
+                            <i nz-icon nzType="mail" nzTheme="outline" style="color: #ef9550;"></i>
                         </ng-template>
+
                         <nz-form-item>
+
                             <nz-form-control [nzErrorTip]="mobileError">
                                 <nz-input-group [nzPrefix]="mobileTpl" [nzSize]="'large'">
                                     <input type="tel" nz-input formControlName="mobile" placeholder="手机号"/>
                                 </nz-input-group>
                             </nz-form-control>
+
                             <ng-template #mobileError let-control>
                                 <ng-container *ngIf="control.hasError('required')">
                                     请输入手机号！
@@ -105,7 +120,9 @@
                                     手机号格式错误！
                                 </ng-container>
                             </ng-template>
+
                         </nz-form-item>
+
                         <nz-form-item>
                             <nz-form-control nzErrorTip="请输入验证码！">
                                 <div nz-row [nzGutter]="8">
@@ -153,16 +170,19 @@
     </div>
     <div class="footer">
         <div class="links">
-            <a title="Ng Antd Admin" target="_blank" href="https://llkui.github.io/ng-antd-admin">Ng Antd Admin</a>
-            <a title="github" target="_blank" href="https://github.com/llkui/ng-antd-admin">
-                <i nz-icon nzType="github" nzTheme="outline"></i>
+            <a href="https://github.com/XiaoBaiOvO/ebai_cloud_service">Ebai Cloud</a>
+            <a href="https://github.com/XiaoBaiOvO?tab=repositories">
+                <i nz-icon nzType="ant-cloud" nzTheme="outline"></i>
             </a>
-            <a title="Ng Zorro Antd" target="_blank" href="https://ng.ant.design/">Ng Zorro Antd</a>
+            <a href="https://github.com/XiaoBaiOvO/ebai_cloud_web">Angular x Ant</a>
         </div>
+        <a class="copyright desc">———————————————————</a>
         <div class="copyright">
-            ng-antd-admin
-            <i nz-icon nzType="copyright" nzTheme="outline"></i>
-            2020 Implement By llkui
+            ebai.cloud
+            <i nz-icon nzType="copyright" nzTheme="outline" ></i>
+            2022
+            <i style="margin-left: 10px"></i>
+            Implement By XiaoBai
         </div>
     </div>
 </div>

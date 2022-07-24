@@ -4,13 +4,12 @@ import {Routes, RouterModule} from '@angular/router';
 const routes: Routes = [
     {
         path: '',
-        // pathMatch: 'full',
         loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
-    }
+    },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {relativeLinkResolution: 'legacy'})],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

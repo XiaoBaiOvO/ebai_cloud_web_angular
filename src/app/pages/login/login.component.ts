@@ -3,7 +3,8 @@ import {FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/form
 import {Router} from '@angular/router';
 
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {AuthService} from "../../auth/auth.service";
+import {AuthService} from "../../core/auth/auth.service";
+import axios from "axios";
 
 @Component({
     selector: 'app-user-login',
@@ -12,10 +13,11 @@ import {AuthService} from "../../auth/auth.service";
 })
 
 export class LoginComponent implements OnInit {
-    validateForm: FormGroup;
+
+    loginForm: FormGroup;
     isSpinning = false;
     loginError = false;
-    selectedIndex = 0;
+    tabIndex = 0;
     mobileLoginError = false;
 
     constructor(
@@ -25,9 +27,9 @@ export class LoginComponent implements OnInit {
         private authService: AuthService,
 
     ) {
-        this.validateForm = this.fb.group({
-            username: ['', [Validators.required]],
-            password: ['', [Validators.required]],
+        this.loginForm = this.fb.group({
+            userName: ['xiaobai', [Validators.required]],
+            password: ['111', [Validators.required]],
             mobile: ['', [Validators.required, this.matchMobile]],
             mail: ['', [Validators.required]],
             remember: [true]
@@ -35,7 +37,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-
     }
 
     matchMobile = (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -46,36 +47,36 @@ export class LoginComponent implements OnInit {
     }
 
     selectedChange() {
-        if (0 === 0) {
-            const username = this.validateForm.controls['username'].value;
-            const password = this.validateForm.controls['password'].value;
-            this.validateForm.controls['username'].reset(username);
-            this.validateForm.controls['password'].reset(password);
+        if (this.tabIndex) {
+            const mobile = this.loginForm.controls['mobile'].value;
+            const mail = this.loginForm.controls['mail'].value;
+            this.loginForm.controls['mobile'].reset(mobile);
+            this.loginForm.controls['mail'].reset(mail);
         } else {
-            const mobile = this.validateForm.controls['mobile'].value;
-            const mail = this.validateForm.controls['mail'].value;
-            this.validateForm.controls['mobile'].reset(mobile);
-            this.validateForm.controls['mail'].reset(mail);
+            const username = this.loginForm.controls['userName'].value;
+            const password = this.loginForm.controls['password'].value;
+            this.loginForm.controls['userName'].reset(username);
+            this.loginForm.controls['password'].reset(password);
         }
     }
 
     submitForm() {
         this.isSpinning = true;
         this.loginError = false;
-        for (const i of ['username', 'password']) {
+        for (const i of ['userName', 'password']) {
             if (i) {
-                this.validateForm.controls[i].markAsDirty();
-                this.validateForm.controls[i].updateValueAndValidity();
+                this.loginForm.controls[i].markAsDirty();
+                this.loginForm.controls[i].updateValueAndValidity();
             }
         }
-        if (this.validateForm.controls['username'].invalid || this.validateForm.controls['password'].invalid) {
+        if (this.loginForm.controls['userName'].invalid || this.loginForm.controls['password'].invalid) {
             this.isSpinning = false;
             return;
         }
 
         setTimeout(() => {
-            const username = this.validateForm.controls['username'].value;
-            const password = this.validateForm.controls['password'].value;
+            const username = this.loginForm.controls['userName'].value;
+            const password = this.loginForm.controls['password'].value;
             if (['admin', 'user'].indexOf(username) !== -1 && 'ng.antd.admin' === password) {
                 this.router.navigate(['/']);
                 this.message.success('登录成功');
@@ -91,11 +92,11 @@ export class LoginComponent implements OnInit {
         this.mobileLoginError = false;
         for (const i of ['mobile', 'mail']) {
             if (i) {
-                this.validateForm.controls[i].markAsDirty();
-                this.validateForm.controls[i].updateValueAndValidity();
+                this.loginForm.controls[i].markAsDirty();
+                this.loginForm.controls[i].updateValueAndValidity();
             }
         }
-        if (this.validateForm.controls['mobile'].invalid || this.validateForm.controls['mail'].invalid) {
+        if (this.loginForm.controls['mobile'].invalid || this.loginForm.controls['mail'].invalid) {
             this.isSpinning = false;
             return;
         }
@@ -103,9 +104,9 @@ export class LoginComponent implements OnInit {
         this.login();
     }
 
-    login() {
+    logins() {
         setTimeout(() => {
-            const mail = this.validateForm.controls['mail'].value;
+            const mail = this.loginForm.controls['mail'].value;
             if (mail === '123456') {
                 this.router.navigate(['/']);
                 this.message.success('登录成功');
@@ -116,12 +117,48 @@ export class LoginComponent implements OnInit {
         }, 1000);
     }
 
-    toLogin() {
-        this.authService.isLoggedIn = true;
-        this.router.navigate(['/']);
+
+    login() {
+        this.isSpinning = true;
+        this.loginError = false;
+
+        if(this.tabIndex) {
+            // mobile
+            let userInfo = "abc123";
+            this.authService.loginSuccess(userInfo);
+            this.router.navigate(['/welcome']);
+        } else {
+            // userName
+            if (this.loginForm.controls['userName'].invalid || this.loginForm.controls['password'].invalid) {
+                // 输入错误
+                this.isSpinning = false;
+                this.loginError = true;
+                return;
+            }
+            // 登录验证
+            const userInfo = {
+                userName: this.loginForm.controls['userName'].value,
+                password: this.loginForm.controls['password'].value,
+            };
+            // userInfo.userName =
+            axios.post("http://127.0.0.1:9000/login", userInfo).then(r => {
+                if (r.data != "") {
+                    // 登录成功
+                    this.authService.loginSuccess(r.data);
+                    this.router.navigate(['/welcome']).then();
+                } else {
+                    // 登录失败
+                    this.isSpinning = false;
+                    this.loginError = true;
+                }
+            })
+
+        }
+        this.isSpinning = false;
     }
 
     goRegister() {
-        this.router.navigate(['/user/register']);
+        this.router.navigate(['/user/register']).then();
     }
+
 }

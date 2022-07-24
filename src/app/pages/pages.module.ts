@@ -22,14 +22,11 @@ import {NzDrawerModule} from 'ng-zorro-antd/drawer';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 
-import {AuthGuard} from '../service/auth-guard.service';
-import {CommonService} from '../service/common.service';
-
 import {PagesComponent} from './pages.component';
 import {PagesRoutingModule} from "./pages-routing.module";
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
 import {NzCarouselModule} from "ng-zorro-antd/carousel";
-import {AuthModule} from "../auth/auth.module";
+import {AuthModule} from "../core/auth/auth.module";
 
 
 @NgModule({
@@ -66,10 +63,6 @@ import {AuthModule} from "../auth/auth.module";
         NzBreadCrumbModule,
         NzCarouselModule
     ],
-    providers: [
-        AuthGuard,
-        CommonService
-    ]
 })
 
 export class PagesModule {

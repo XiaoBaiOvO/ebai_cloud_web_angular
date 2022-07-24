@@ -9,7 +9,8 @@ export class AuthService {
   // 保存登录后重定向的路径
   redirectUrl: string | undefined;
 
-  loginStatic(): void {
+  loginSuccess(id: String): void {
+      console.log('用户id：' + id)
     this.isLoggedIn = true;
   }
   logout(): void {

@@ -1,6 +1,7 @@
 import {Component, OnInit, Inject, AfterViewInit} from '@angular/core';
 import {Router, NavigationEnd} from "@angular/router";
-import {AuthService} from "../auth/auth.service";
+import {AuthService} from "../core/auth/auth.service";
+import axios from "axios";
 
 @Component({
     selector: 'app-root',
@@ -42,136 +43,28 @@ export class PagesComponent implements OnInit, AfterViewInit {
 
     menuList = [
         {
-            title: '首页',
-            icon: 'home',
-            link: '/welcome',
+            title: '',
+            icon: '',
+            link: '',
         },
         {
-            title: '菜单一',
-            icon: 'profile',
+            title: '',
+            icon: '',
             open: false,
             children: [
                 {
-                    title: '目录1',
+                    title: '',
                     open: false,
                     children: [
                         {
-                            title: '页面1',
-                            link: '/11'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/12'
+                            title: '',
+                            link: ''
                         },
                     ]
                 },
                 {
-                    title: '目录2',
-                    open: false,
-                    children: [
-                        {
-                            title: '页面1',
-                            link: '/21'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/22'
-                        },
-                    ]
-                },
-                {
-                    title: '页面1',
-                    link: '/welcome2'
-                },
-                {
-                    title: '页面2',
-                    link: '/2'
-                },
-            ]
-        },
-        {
-            title: '菜单二',
-            icon: 'profile',
-            open: false,
-            children: [
-                {
-                    title: '目录1',
-                    open: false,
-                    children: [
-                        {
-                            title: '页面1',
-                            link: '/11'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/12'
-                        },
-                    ]
-                },
-                {
-                    title: '目录2',
-                    open: false,
-                    children: [
-                        {
-                            title: '页面1',
-                            link: '/21'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/22'
-                        },
-                    ]
-                },
-                {
-                    title: '页面1',
-                    link: '/1'
-                },
-                {
-                    title: '页面2',
-                    link: '/2'
-                },
-            ]
-        },
-        {
-            title: '菜单三',
-            icon: 'profile',
-            open: false,
-            children: [
-                {
-                    title: '目录1',
-                    open: false,
-                    children: [
-                        {
-                            title: '页面1',
-                            link: '/11'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/12'
-                        },
-                    ]
-                },
-                {
-                    title: '目录2',
-                    open: false,
-                    children: [
-                        {
-                            title: '页面1',
-                            link: '/21'
-                        },
-                        {
-                            title: '页面2',
-                            link: '/22'
-                        },
-                    ]
-                },
-                {
-                    title: '页面1',
-                    link: '/1'
-                },
-                {
-                    title: '页面2',
-                    link: '/2'
+                    title: '',
+                    link: ''
                 },
             ]
         },
@@ -198,6 +91,147 @@ export class PagesComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        // 获取菜单列表
+        axios.get("http://127.0.0.1:9000/getMenuList").then(r => {
+            this.menuList = r.data
+        })
     }
+
+    // menuList = [
+    //     {
+    //         title: '首页',
+    //         icon: 'home',
+    //         link: '/welcome',
+    //     },
+    //     {
+    //         title: '菜单一',
+    //         icon: 'profile',
+    //         open: false,
+    //         children: [
+    //             {
+    //                 title: '目录1',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/11'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/12'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '目录2',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/21'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/22'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '页面1',
+    //                 link: '/welcome2'
+    //             },
+    //             {
+    //                 title: '页面2',
+    //                 link: '/2'
+    //             },
+    //         ]
+    //     },
+    //     {
+    //         title: '菜单二',
+    //         icon: 'profile',
+    //         open: false,
+    //         children: [
+    //             {
+    //                 title: '目录1',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/11'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/12'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '目录2',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/21'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/22'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '页面1',
+    //                 link: '/1'
+    //             },
+    //             {
+    //                 title: '页面2',
+    //                 link: '/2'
+    //             },
+    //         ]
+    //     },
+    //     {
+    //         title: '菜单三',
+    //         icon: 'profile',
+    //         open: false,
+    //         children: [
+    //             {
+    //                 title: '目录1',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/11'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/12'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '目录2',
+    //                 open: false,
+    //                 children: [
+    //                     {
+    //                         title: '页面1',
+    //                         link: '/21'
+    //                     },
+    //                     {
+    //                         title: '页面2',
+    //                         link: '/22'
+    //                     },
+    //                 ]
+    //             },
+    //             {
+    //                 title: '页面1',
+    //                 link: '/1'
+    //             },
+    //             {
+    //                 title: '页面2',
+    //                 link: '/2'
+    //             },
+    //         ]
+    //     },
+    // ];
 
 }

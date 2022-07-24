@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {PagesComponent} from './pages.component';
-import {AuthGuard} from "../auth/auth.guard";
+import {AuthGuard} from "../core/auth/auth.guard";
 
 const adminRoutes: Routes = [
     {
@@ -19,16 +19,16 @@ const adminRoutes: Routes = [
                 path: 'welcome',
                 loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule)
             },
-            {
-                path: 'welcome2',
-                loadChildren: () => import('./welcome/welcome.module').then(m => m.WelcomeModule)
-            }
         ],
     },
     {
         path: 'user',
         loadChildren: () => import('./login/user.module').then(m => m.UserModule)
-    }
+    },
+    {
+        path: '**',
+        redirectTo: '',
+    },
 ];
 
 @NgModule({
