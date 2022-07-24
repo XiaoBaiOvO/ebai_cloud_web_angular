@@ -27,9 +27,88 @@
       <ng-template>
         <a>全部项目</a>
       </ng-template>
-      <nz-card nzTitle="动态" class="mt20">
+
+<!--      卡片-->
+      <nz-card nzTitle="聊天室" class="mt20">
+
+<!--        <nz-list *ngIf="data.length" [nzDataSource]="data" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">-->
+<!--          <ng-template #item let-item>-->
+<!--            <nz-comment [nzAuthor]="item.author" [nzDatetime]="item.displayTime">-->
+<!--              <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="item.avatar"></nz-avatar>-->
+<!--              <nz-comment-content>-->
+<!--                <p>{{ item.content }}</p>-->
+<!--              </nz-comment-content>-->
+<!--            </nz-comment>-->
+<!--          </ng-template>-->
+<!--        </nz-list>-->
+        <nz-comment>
+          <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+          <nz-comment-content>
+            <nz-form-item>
+              <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+            </nz-form-item>
+            <nz-form-item style="margin-top: 20px; width: 100%; display: flex">
+              <div style="flex: 1 1 0%"></div>
+              <button nz-button nzType="primary"
+                      [nzLoading]="submitting" [disabled]="!inputValue"
+                      (click)="handleSubmit()"
+                      style="width: 200px"
+              >
+                Add Comment
+              </button>
+            </nz-form-item>
+          </nz-comment-content>
+        </nz-comment>
+
+
+
+        <!--        List-->
         <nz-list nzItemLayout="horizontal" class="dynamicList">
+          <!--          List里面的列-->
           <nz-list-item *ngFor="let item of dynamicList">
+
+            <!--        List列的内容-->
+            <!--        评论-->
+            <ng-template #commentTemplateRef let-comment="comment">
+              <nz-comment [nzAuthor]="comment.author">
+                <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.avatar"></nz-avatar>
+                <nz-comment-content>
+                  <p>{{ comment.content }}</p>
+                </nz-comment-content>
+                <nz-comment-action>Reply to</nz-comment-action>
+                <ng-container *ngIf="comment.children && comment.children.length">
+                  <ng-template ngFor let-child [ngForOf]="comment.children">
+                    <ng-template
+                      [ngTemplateOutlet]="commentTemplateRef"
+                      [ngTemplateOutletContext]="{ comment: child }"
+                    ></ng-template>
+                  </ng-template>
+                </ng-container>
+              </nz-comment>
+            </ng-template>
+            <ng-template [ngTemplateOutlet]="commentTemplateRef" [ngTemplateOutletContext]="{ comment: commentData }"></ng-template>
+
+
+          </nz-list-item>
+
+        </nz-list>
+
+
+
+
+      </nz-card>
+
+<!--      卡片-->
+      <nz-card nzTitle="动态" class="mt20">
+
+<!--        List-->
+        <nz-list nzItemLayout="horizontal" class="dynamicList">
+
+<!--          List里面的列-->
+          <nz-list-item *ngFor="let item of dynamicList">
+
+<!--            每列的内容-->
+<!--            动态的内容-->
             <nz-list-item-meta>
               <nz-list-item-meta-avatar [nzSrc]="item.avatar">
               </nz-list-item-meta-avatar>
@@ -63,9 +142,18 @@
                 {{item.time}}
               </nz-list-item-meta-description>
             </nz-list-item-meta>
+
+
+
           </nz-list-item>
         </nz-list>
+
+
+
+
+
       </nz-card>
+
     </div>
     <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="24" [nzXl]="8">
       <nz-card nzTitle="快速开始 / 便捷导航">

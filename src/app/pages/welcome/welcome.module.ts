@@ -12,10 +12,13 @@ import {CommonModule} from "@angular/common";
 import {NzListModule} from "ng-zorro-antd/list";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {IconsProviderModule} from "../../icons-provider.module";
+import {NzCommentModule} from "ng-zorro-antd/comment";
+import {FormsModule} from "@angular/forms";
+import {NzInputModule} from "ng-zorro-antd/input";
 
 
 @NgModule({
-  imports: [WelcomeRoutingModule, NzCardModule, NzLayoutModule, NzGridModule, NzBadgeModule, NzAvatarModule, CommonModule, NzListModule, NzButtonModule, IconsProviderModule],
+  imports: [WelcomeRoutingModule, NzCardModule, NzLayoutModule, NzGridModule, NzBadgeModule, NzAvatarModule, CommonModule, NzListModule, NzButtonModule, IconsProviderModule, NzCommentModule, FormsModule, NzInputModule],
   declarations: [WelcomeComponent],
   exports: [WelcomeComponent]
 })

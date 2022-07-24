@@ -152,8 +152,52 @@ export class WelcomeComponent implements OnInit {
   ];
 
 
+  commentData = {
+    author: 'Han Solo',
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    content:
+      'We supply a series of design principles, practical patterns and high quality design resources' +
+      '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    children: [
+      {
+        author: 'Han Solo',
+        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+        content:
+          'We supply a series of design principles, practical patterns and high quality design resources' +
+          '(Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+      }
+    ]
+  };
 
 
+  data: any[] = [];
+  submitting = false;
+  user = {
+    author: 'Han Solo',
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+  };
+  inputValue = '';
+
+  handleSubmit(): void {
+    this.submitting = true;
+    const content = this.inputValue;
+    this.inputValue = '';
+    setTimeout(() => {
+      this.submitting = false;
+      this.data = [
+        ...this.data,
+        {
+          ...this.user,
+          content,
+          datetime: new Date(),
+          displayTime: 'few seconds later' // formatDistance(new Date(), new Date())
+        }
+      ].map(e => ({
+        ...e,
+        displayTime: 'few seconds later' //formatDistance(new Date(), e.datetime)
+      }));
+    }, 800);
+  }
 
   titleTpl: any;
   descTpl: any;
